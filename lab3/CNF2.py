@@ -166,14 +166,23 @@ def parse_cnf_formula(formula):
 
 def main():
     # Example from the document
+    # KB_formulas = [
+    #     "¬sun ∨ ¬money ∨ ice",
+    #     "¬money ∨ ice ∨ movie",
+    #     "¬movie ∨ money",
+    #     "¬movie ∨ ¬ice",
+    #     "movie",
+    #     "sun ∨ money ∨ cry"
+    # ]
+
+    # B.1 Robbery puzzle clauses
     KB_formulas = [
-        "¬sun ∨ ¬money ∨ ice",
-        "¬money ∨ ice ∨ movie",
-        "¬movie ∨ money",
-        "¬movie ∨ ¬ice",
-        "movie",
-        "sun ∨ money ∨ cry"
+        "¬C ∨ A",       # C → A
+        "¬B ∨ A ∨ C",   # B → A ∨ C
+        "A ∨ B ∨ C",    # At least one of A, B, or C is guilty
+        "¬A"            # Assume A is innocent
     ]
+
     
     # Parse the formulas into clauses
     KB = set()
@@ -191,6 +200,16 @@ def main():
     print("\nFinal KB after resolution:")
     for clause in result:
         print(f"  {clause}")
+
+        print("\nFinal KB after resolution:")
+    for clause in result:
+        print(f"  {clause}")
+    
+    # Check if a contradiction (empty clause) was derived
+    if Clause() in result:
+        print("\nContradiction found: A is guilty.")
+    else:
+        print("\nNo contradiction found: A is innocent.")
 
 
 if __name__ == "__main__":
