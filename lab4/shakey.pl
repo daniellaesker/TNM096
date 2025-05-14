@@ -20,17 +20,19 @@ initial_state([
     lightSwitch(switch1, room1),
     lightSwitch(switch2, room2),
     lightSwitch(switch3, room3),
-    lightSwitch(switch4, room4),
-
-    % Track if Shakey has found a box (initially no boxes found)
-    % If Shakey knows where a box is
-    boxFound(box1, false), boxFound(box2, false), boxFound(box3, false), boxFound(box4, false)
+    lightSwitch(switch4, room4)
 ]).
+
+% Task 1: Move Shakey from room3 to room1
+% goal_state([at(shakey, room1)]).
+
+% Task 2: Switch off the light in room1
+% goal_state([lightOff(room1)]).
 
 % Task 3: Get box2 into room2
 goal_state([at(box2, room2)]).
 
-% STRIPS Actions
+% STRIPS Actions - ONLY ONE SET OF ACTIONS
 
 % Action: go(X, Y) - Move from location X to location Y
 act(go(X, Y),
@@ -41,19 +43,10 @@ act(go(X, Y),
     % Add list
     [at(shakey, Y)]).
 
-% Action: findBox(B, X) - Find box B in location X (requires light)
-act(findBox(B, X),
-    % Preconditions - light must be on to find the box
-    [at(shakey, X), at(B, X), box(B), lightOn(X), on(B, floor), on(shakey, floor), boxFound(B, false)],
-    % Delete list
-    [boxFound(B, false)],
-    % Add list
-    [boxFound(B, true)]).
-
 % Action: push(B, X, Y) - Push box B from location X to location Y
 act(push(B, X, Y),
-    % Preconditions - box must be found first
-    [at(shakey, X), at(B, X), box(B), boxFound(B, true), on(B, floor), on(shakey, floor), connected(X, Y)],
+    % Preconditions
+    [at(shakey, X), at(B, X), box(B), lightOn(X), on(B, floor), on(shakey, floor), connected(X, Y)],
     % Delete list
     [at(shakey, X), at(B, X)],
     % Add list
@@ -61,8 +54,8 @@ act(push(B, X, Y),
 
 % Action: climbUp(B) - Climb onto box B
 act(climbUp(B),
-    % Preconditions - box must be found first
-    [at(shakey, X), at(B, X), box(B), boxFound(B, true), on(B, floor), on(shakey, floor)],
+    % Preconditions
+    [at(shakey, X), at(B, X), box(B), on(B, floor), on(shakey, floor)],
     % Delete list
     [on(shakey, floor)],
     % Add list
@@ -80,7 +73,7 @@ act(climbDown(B),
 % Action: turnOn(S) - Turn light switch S on
 act(turnOn(S),
     % Preconditions
-    [lightSwitch(S, R), at(shakey, R), on(shakey, B), box(B), boxFound(B, true), at(B, R), lightOff(R)],
+    [lightSwitch(S, R), at(shakey, R), on(shakey, B), box(B), at(B, R), lightOff(R)],
     % Delete list
     [lightOff(R)],
     % Add list
@@ -89,7 +82,7 @@ act(turnOn(S),
 % Action: turnOff(S) - Turn light switch S off
 act(turnOff(S),
     % Preconditions
-    [lightSwitch(S, R), at(shakey, R), on(shakey, B), box(B), boxFound(B, true), at(B, R), lightOn(R)],
+    [lightSwitch(S, R), at(shakey, R), on(shakey, B), box(B), at(B, R), lightOn(R)],
     % Delete list
     [lightOn(R)],
     % Add list
