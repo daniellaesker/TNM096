@@ -8,7 +8,7 @@ initial_state([
     connected(room4, corridor), connected(corridor, room4),
 
     % Light states - some lights on, some off
-    lightOn(room1), lightOff(room2), lightOff(room3), lightOn(room4),
+    lightOn(room1), lightOn(room2), lightOn(room3), lightOn(room4), lightOn(corridor),
 
     % Box positions - four boxes all in room1
     box(box1), box(box2), box(box3), box(box4),
@@ -27,10 +27,10 @@ initial_state([
 % goal_state([at(shakey, room1)]).
 
 % Task 2: Switch off the light in room1
-goal_state([lightOff(room1)]).
+% goal_state([lightOff(room1)]).
 
 % Task 3: Get box2 into room2
-% goal_state([at(box2, room2)]).
+goal_state([at(box2, room2)]).
 
 % STRIPS Actions - ONLY ONE SET OF ACTIONS
 
