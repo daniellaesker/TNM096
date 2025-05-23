@@ -29,10 +29,10 @@ initial_state([
 % goal_state([at(shakey, room1)]).
 
 % Task 2: Switch off the light in room1
-% goal_state([lightOff(room1)]).
+goal_state([lightOff(room1)]).
 
 % Task 3: Get box2 into room2
- goal_state([at(box2, room2)]).
+% goal_state([at(box2, room2)]).
 
 % STRIPS Actions - ONLY ONE SET OF ACTIONS
 
